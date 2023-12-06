@@ -32,19 +32,14 @@ The primary goal of this project is to utilize machine learning techniques to an
 
 ## **Analysis Steps**
 
-1. **Data Exploration:** Understand the dataset's structure, examine feature distributions, and identify patterns.
-
-2. **Data Preprocessing:** Clean the data, handle missing values, and prepare it for modeling.
-
-3. **Exploratory Data Analysis (EDA):** Visualize relationships between variables and extract meaningful insights.
-
-4. **Feature Selection:** Identify key features for predictive modeling.
-
-5. **Model Selection and Training:** Choose suitable machine learning algorithms and train models for heart attack prediction.
-
-6. **Model Evaluation:** Evaluate model performance using various metrics.
-
-7. **Conclusion:** Summarize findings and assess the effectiveness of the predictive model.
+1. **Data Exploration:** Understanding the dataset's structure, exploring its intricacies, and examining the distribution of variables.
+2. **Data Preprocessing:** Rigorous cleaning procedures, addressing missing values, and preparing the data for subsequent modeling stages.
+3. **Exploratory Data Analysis (EDA):** Visualizing relationships between variables and extracting meaningful patterns to gain insights.
+4. **Feature Selection:** Identifying and selecting the most relevant features crucial for our predictive task.
+5. **Model Selection and Training:** Choosing suitable machine learning algorithms tailored to our classification objective, and training and refining the selected models to optimize performance.
+6. **Model Evaluation:** Thoroughly assessing the efficacy of the models using diverse evaluation metrics.
+7. **Feature Importance:** Analyzing the importance of features in the predictive model to understand which variables contribute significantly to the heart attack prediction.
+8. **Conclusion:** A concise summary encapsulating our findings and an evaluation of the predictive model's effectiveness.
 
 ## **Getting Started**
 
