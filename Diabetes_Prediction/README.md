@@ -53,13 +53,13 @@ The primary objective is to utilise these features to achieve an accurate predic
    
 2. Use the requirements file in this repository to create a new environment.
 
-```Bash
-pyenv local 3.11.3
-python -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
-```
+   ```Bash
+   pyenv local 3.11.3
+   python -m venv .venv
+   source .venv/bin/activate
+   pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
 
 3. Explore the Jupyter notebooks for detailed analysis.
 
