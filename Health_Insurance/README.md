@@ -16,7 +16,7 @@ The dataset comprises the following key features:
 - **Region:** The geographic area of coverage.
 - **Charges:** The medical insurance costs incurred by the insured person.
 
-## Project Objectives
+## Goal
 
 1. **Exploratory Data Analysis (EDA):** Understand the distribution of each feature, identify patterns, and explore potential correlations.
 
