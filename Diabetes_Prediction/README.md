@@ -63,8 +63,6 @@ The primary objective is to utilise these features to achieve an accurate predic
 
 3. Explore the Jupyter notebooks for detailed analysis.
 
-4. Run the provided scripts in the src/ directory for data preprocessing, model training, and evaluation.
-
 ## **Contributions**
 
 This project is a collaborative effort involving contributions from different individuals, including Dr. Steven Schepanski and other attendees of the SPICED Academy Data Science Bootcamp.

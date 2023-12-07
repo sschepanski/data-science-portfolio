@@ -26,12 +26,13 @@ The dataset comprises the following key features:
 
 4. **Model Evaluation:** Assess the performance of the models using relevant metrics and fine-tune as necessary.
 
+5. **Feature Importance:** Analyse the importance of features in the predictive model to understand which factors contribute significantly to medical insurance charges.
+
 ## Project Structure
 
 - **`notebooks/`**: Jupyter notebooks for EDA, feature engineering, and model development.
 - **`data/`**: Dataset file (e.g., `insurance_data.csv`).
 - **`models/`**: Saved models for deployment or further analysis.
-- **`reports/`**: Project reports, visualizations, and model evaluation results.
 
 ## Getting Started
 
@@ -52,8 +53,6 @@ pip install -r requirements.txt
 ```
 
 3. Explore the Jupyter notebooks for detailed analysis.
-
-4. Run the provided scripts in the src/ directory for data preprocessing, model training, and evaluation.
 
 ## Data Dictionary
 
