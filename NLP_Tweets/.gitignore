@@ -138,3 +138,8 @@ dmypy.json
 # Data 
 data/
 djungo_interface/
+
+# specific stuff
+models/glove.6B.100d.txt
+models/glove.6B.50d.txt
+models/glove.6B.200d.txt
