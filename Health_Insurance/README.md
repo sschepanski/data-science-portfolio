@@ -33,6 +33,7 @@ The dataset comprises the following key features:
 - **`notebooks/`**: Jupyter notebooks for EDA, feature engineering, and model development.
 - **`data/`**: Dataset file (e.g., `insurance_data.csv`).
 - **`models/`**: Saved models for deployment or further analysis.
+- **`Dashboard.py`**: Streamlit dashboard for interactive visualization and exploration.
 
 ## Getting Started
 
