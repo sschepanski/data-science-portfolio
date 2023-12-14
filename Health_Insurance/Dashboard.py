@@ -37,26 +37,53 @@ average_charges_female = df[df['sex'] == 0]['charges'].mean()
 average_age_female = df[df['sex'] == 0]['age'].mean()
 average_bmi_female = df[df['sex'] == 0]['bmi'].mean()
 
-# Arrange the general stats in three columns
+# Average Charges card
+average_charges_card = (
+    f"<div style='border: 1px solid #ccc; border-radius: 10px; padding: 10px; background-color: #cacccd;'>"
+    f"<div style='text-align: center; color: #f5f5f5;'><b>Average Charges</b></div>"
+    f"<div style='text-align: center; font-size: 36px;'>{average_charges_all:.2f}</div>"
+    f"<div style='display: flex; justify-content: space-around; margin-top: 10px;'>"
+    f"   <div style='font-size: 18px; color: #15556f;'>♂{average_charges_male:.2f}</div>"
+    f"   <div style='font-size: 18px; color: #FF7E00;'>♀{average_charges_female:.2f}</div>"
+    f"</div>"
+    f"</div>"
+)
+
+# Average Age card
+average_age_card = (
+    f"<div style='border: 1px solid #ccc; border-radius: 10px; padding: 10px; background-color: #cacccd;'>"
+    f"<div style='text-align: center; color: #f5f5f5;'><b>Average Age</b></div>"
+    f"<div style='text-align: center; font-size: 36px;'>{average_age_all:.2f}</div>"
+    f"<div style='display: flex; justify-content: space-around; margin-top: 10px;'>"
+    f"   <div style='font-size: 18px; color: #15556f;'>♂{average_age_male:.2f}</div>"
+    f"   <div style='font-size: 18px; color: #FF7E00;'>♀{average_age_female:.2f}</div>"
+    f"</div>"
+    f"</div>"
+)
+
+# Average BMI card
+average_bmi_card = (
+    f"<div style='border: 1px solid #ccc; border-radius: 10px; padding: 10px; background-color: #cacccd;'>"
+    f"<div style='text-align: center; color: #f5f5f5;'><b>Average BMI</b></div>"
+    f"<div style='text-align: center; font-size: 36px;'>{average_bmi_all:.2f}</div>"
+    f"<div style='display: flex; justify-content: space-around; margin-top: 10px;'>"
+    f"   <div style='font-size: 18px; color: #15556f;'>♂{average_bmi_male:.2f}</div>"
+    f"   <div style='font-size: 18px; color: #FF7E00;'>♀{average_bmi_female:.2f}</div>"
+    f"</div>"
+    f"</div>"
+)
+
+# Define the three columns
 columns = st.columns(3)
 
-# Average charges
-columns[0].markdown("<div style='text-align: center;'><b>Average Charges</b></div>", unsafe_allow_html=True)
-columns[0].markdown(f"<div style='text-align: center; font-size: 24px;'>{average_charges_all:.2f}</div>", unsafe_allow_html=True)
-columns[1].markdown(f"<div style='text-align: center; font-size: 24px;'>{average_charges_male:.2f} ♂</div>", unsafe_allow_html=True)
-columns[2].markdown(f"<div style='text-align: center; font-size: 24px;'>{average_charges_female:.2f} ♀</div>", unsafe_allow_html=True)
+# Average Charges card
+columns[0].markdown(average_charges_card, unsafe_allow_html=True)
 
-# Average age
-columns[0].markdown("<div style='text-align: center;'><b>Average Age</b></div>", unsafe_allow_html=True)
-columns[0].markdown(f"<div style='text-align: center; font-size: 24px;'>{average_age_all:.2f}</div>", unsafe_allow_html=True)
-columns[1].markdown(f"<div style='text-align: center; font-size: 24px;'>{average_age_male:.2f} ♂</div>", unsafe_allow_html=True)
-columns[2].markdown(f"<div style='text-align: center; font-size: 24px;'>{average_age_female:.2f} ♀</div>", unsafe_allow_html=True)
+# Average Age card
+columns[1].markdown(average_age_card, unsafe_allow_html=True)
 
-# Average BMI
-columns[0].markdown("<div style='text-align: center;'><b>Average BMI</b></div>", unsafe_allow_html=True)
-columns[0].markdown(f"<div style='text-align: center; font-size: 24px;'>{average_bmi_all:.2f}</div>", unsafe_allow_html=True)
-columns[1].markdown(f"<div style='text-align: center; font-size: 24px;'>{average_bmi_male:.2f} ♂</div>", unsafe_allow_html=True)
-columns[2].markdown(f"<div style='text-align: center; font-size: 24px;'>{average_bmi_female:.2f} ♀</div>", unsafe_allow_html=True)
+# Average BMI card
+columns[2].markdown(average_bmi_card, unsafe_allow_html=True)
 
 # Add a separator
 st.markdown("<hr style='margin: 20px;'>", unsafe_allow_html=True)
@@ -71,11 +98,18 @@ selected_columns = st.sidebar.multiselect(
     ["charges", "children", "bmi", "age"],
 )
 
-# Create two dots to select either the two sexes, the two smoker sections, the 4 regions, and 4 bmi_classes
-selected_sex = st.sidebar.multiselect("Select Sex", df["sex"].unique())
-selected_smoker = st.sidebar.multiselect("Select Smoker", df["smoker"].unique())
-selected_region = st.sidebar.multiselect("Select Region", df["region"].unique())
-selected_bmi_class = st.sidebar.multiselect("Select BMI Class", df["bmi_class"].unique())
+# Create circular buttons for sex
+selected_sex = st.sidebar.radio("Select Sex", ["male", "female"], index=0)
+
+# Create circular buttons for smoker
+selected_smoker = st.sidebar.radio("Select Smoker", ["non-smoker", "smoker"], index=0)
+
+# Create circular buttons for region
+selected_region = st.sidebar.radio("Select Region", df["region"].unique(), index=0)
+
+# Create circular buttons for bmi_class
+bmi_class_labels = {1: "underweight", 2: "healthy", 3: "overweight", 4: "obese"}
+selected_bmi_class = st.sidebar.radio("Select BMI Class", bmi_class_labels.values(), index=0)
 
 # Choose the type of plot
 plot_type = st.sidebar.selectbox("Select Plot Type", ["scatter"])
@@ -168,6 +202,12 @@ Xtrain, Xtest, ytrain, ytest = train_test_split(X, y, test_size=0.2, random_stat
 # On/Off switch for feature importance
 show_feature_importance = st.sidebar.checkbox("Show Feature Importance", False)
 
+# Initialize metrics outside the loop
+mae, mse, rmse = 0, 0, 0
+
+# Create three separate columns for MAE, MSE, and RMSE cards
+columns_metrics = st.columns(3)
+
 # Evaluate and plot metrics for the selected models
 for selected_model in selected_models:
     st.subheader(f"Model Evaluation: {selected_model}")
@@ -203,37 +243,19 @@ for selected_model in selected_models:
     st.text(f"MSE for {selected_model}: {mse:.2f}")
     st.text(f"RMSE for {selected_model}: {rmse:.2f}")
 
-    # Plot feature importance if selected
-    if show_feature_importance:
-        if hasattr(model, 'feature_importances_'):
-            feature_importance = model.feature_importances_
-            features = Xtrain.columns
-            plot_data = pd.DataFrame({'Feature': features, 'Importance': feature_importance})
-            plot_data = plot_data.sort_values(by='Importance', ascending=False)
+# Display cards for MAE, MSE, and RMSE only if models are selected
+if selected_models:
+    columns_metrics[0].markdown(f"<div style='background-color: #cacccd; color: #f5f5f5; border-radius: 10px; padding: 10px;'>"
+                                f"<div style='text-align: center;'><b>MAE</b></div>"
+                                f"<div style='text-align: center; font-size: 18px; margin-top: 10px;'>{mae:.2f}</div>"
+                                "</div>", unsafe_allow_html=True)
 
-            # Plot the feature importance
-            st.subheader(f"Feature Importance for {selected_model}")
-            fig, ax = plt.subplots(figsize=(10, 6))
-            sns.barplot(x='Importance', y='Feature', data=plot_data, ax=ax)
-            st.pyplot(fig)
+    columns_metrics[1].markdown(f"<div style='background-color: #cacccd; color: #f5f5f5; border-radius: 10px; padding: 10px;'>"
+                                f"<div style='text-align: center;'><b>MSE</b></div>"
+                                f"<div style='text-align: center; font-size: 18px; margin-top: 10px;'>{mse:.2f}</div>"
+                                "</div>", unsafe_allow_html=True)
 
-    # Plot metrics
-    fig_metrics, ax_metrics = plt.subplots(figsize=(10, 6))
-    metrics_labels = ['MAE', 'MSE', 'RMSE']
-    metrics_values = [mae, mse, rmse]
-    ax_metrics.bar(metrics_labels, metrics_values, color=['blue', 'green', 'orange'])
-    ax_metrics.set_title(f'Metrics for {selected_model}')
-    ax_metrics.set_xlabel('Metrics')
-    ax_metrics.set_ylabel('Values')
-    st.pyplot(fig_metrics)
-
-    # Display individual values on top of each bar
-    for i, v in enumerate(metrics_values):
-        ax_metrics.text(i, v + 50, f"{v:.2f}", ha='center', va='bottom')
-
-    st.pyplot(fig_metrics)
-
-
-
-
-
+    columns_metrics[2].markdown(f"<div style='background-color: #cacccd; color: #f5f5f5; border-radius: 10px; padding: 10px;'>"
+                                f"<div style='text-align: center;'><b>RMSE</b></div>"
+                                f"<div style='text-align: center; font-size: 18px; margin-top: 10px;'>{rmse:.2f}</div>"
+                                "</div>", unsafe_allow_html=True)
