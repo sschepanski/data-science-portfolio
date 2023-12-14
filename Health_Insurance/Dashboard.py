@@ -98,18 +98,33 @@ selected_columns = st.sidebar.multiselect(
     ["charges", "children", "bmi", "age"],
 )
 
-# Create circular buttons for sex
-selected_sex = st.sidebar.radio("Select Sex", ["male", "female"], index=0)
+# Mapping for sex
+sex_mapping = {0: "male", 1: "female"}
+sex_options = list(sex_mapping.values())
+sex_options.append("All")
+selected_sex = st.sidebar.radio("Select Sex", sex_options, index=len(sex_options) - 1)
+selected_sex_code = [key for key, value in sex_mapping.items() if value == selected_sex][0] if selected_sex != "All" else None
 
-# Create circular buttons for smoker
-selected_smoker = st.sidebar.radio("Select Smoker", ["non-smoker", "smoker"], index=0)
+# Mapping for smoker
+smoker_mapping = {0: "non-smoker", 1: "smoker"}
+smoker_options = list(smoker_mapping.values())
+smoker_options.append("All")
+selected_smoker = st.sidebar.radio("Select Smoker", smoker_options, index=len(smoker_options) - 1)
+selected_smoker_code = [key for key, value in smoker_mapping.items() if value == selected_smoker][0] if selected_smoker != "All" else None
 
-# Create circular buttons for region
-selected_region = st.sidebar.radio("Select Region", df["region"].unique(), index=0)
+# Mapping for region
+region_mapping = {"southwest": "Southwest", "southeast": "Southeast", "northwest": "Northwest", "northeast": "Northeast"}
+region_options = list(region_mapping.values())
+region_options.append("All")
+selected_region = st.sidebar.radio("Select Region", region_options, index=len(region_options) - 1)
+selected_region_code = [key for key, value in region_mapping.items() if value == selected_region][0] if selected_region != "All" else None
 
-# Create circular buttons for bmi_class
-bmi_class_labels = {1: "underweight", 2: "healthy", 3: "overweight", 4: "obese"}
-selected_bmi_class = st.sidebar.radio("Select BMI Class", bmi_class_labels.values(), index=0)
+# Mapping for bmi_class
+bmi_class_mapping = {1: "underweight", 2: "healthy", 3: "overweight", 4: "obese"}
+bmi_class_options = list(bmi_class_mapping.values())
+bmi_class_options.append("All")
+selected_bmi_class = st.sidebar.radio("Select BMI Class", bmi_class_options, index=len(bmi_class_options) - 1)
+selected_bmi_class_code = [key for key, value in bmi_class_mapping.items() if value == selected_bmi_class][0] if selected_bmi_class != "All" else None
 
 # Choose the type of plot
 plot_type = st.sidebar.selectbox("Select Plot Type", ["scatter"])
@@ -122,24 +137,22 @@ if plot_type == "scatter" and len(selected_columns) == 2:
     # Show selected plot_type in the second line as the first column
     st.subheader(f"Selected Plot Type: {plot_type}")
 
-    # Create a Matplotlib Figure for the scatter plot with larger size
+    # Create a Matplotlib Figure for the scatter plot with a larger size
     fig, (ax_scatter, ax_hist1, ax_hist2) = plt.subplots(1, 3, figsize=(25, 5))
 
-    # Filter data based on selected options, but only if options are selected
-    if selected_sex or selected_smoker or selected_region or selected_bmi_class:
-        filtered_data = df[
-            (df["sex"].isin(selected_sex))
-            | (df["smoker"].isin(selected_smoker))
-            | (df["region"].isin(selected_region))
-            | (df["bmi_class"].isin(selected_bmi_class))
-        ]
-    else:
-        # If no options are selected, use the entire dataset
-        filtered_data = df.copy()
+    # Filter data based on selected options
+    if selected_sex_code is not None:
+        df = df[df["sex"] == selected_sex_code]
+    if selected_smoker_code is not None:
+        df = df[df["smoker"] == selected_smoker_code]
+    if selected_region_code is not None:
+        df = df[df["region"] == selected_region_code]
+    if selected_bmi_class_code is not None:
+        df = df[df["bmi_class"] == selected_bmi_class_code]
 
     # Plot the scatter plot using Matplotlib
     scatter_plot = sns.scatterplot(
-        data=filtered_data,
+        data=df,
         x=selected_columns[0],
         y=selected_columns[1],
         color=custom_colour,
@@ -155,7 +168,7 @@ if plot_type == "scatter" and len(selected_columns) == 2:
     for i, feature in enumerate(selected_columns):
         # Include outcome differences in histograms
         sns.histplot(
-            data=filtered_data,
+            data=df,
             x=feature,
             color=custom_colour,
             bins=bin_size,
@@ -183,6 +196,7 @@ elif plot_type == "scatter" and len(selected_columns) != 2:
 
 
 
+
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import numpy as np
 
@@ -199,18 +213,18 @@ y = df['charges']
 # Split the data into training and testing sets with stratification
 Xtrain, Xtest, ytrain, ytest = train_test_split(X, y, test_size=0.2, random_state=42, stratify=df['smoker'])
 
-# On/Off switch for feature importance
-show_feature_importance = st.sidebar.checkbox("Show Feature Importance", False)
-
-# Initialize metrics outside the loop
-mae, mse, rmse = 0, 0, 0
-
 # Create three separate columns for MAE, MSE, and RMSE cards
 columns_metrics = st.columns(3)
 
+# Initialize metrics outside the loop
+metrics_data = {}
+
 # Evaluate and plot metrics for the selected models
+show_subheader = True  # Flag to control the display of subheaders
+
 for selected_model in selected_models:
-    st.subheader(f"Model Evaluation: {selected_model}")
+    if show_subheader:
+        st.subheader(f"Model Evaluation: {selected_model}")
 
     # Get the corresponding model from the trained models
     if selected_model == "Decision Tree":
@@ -238,24 +252,161 @@ for selected_model in selected_models:
     mse = mean_squared_error(ytest, y_pred)
     rmse = np.sqrt(mse)
 
-    # Display metrics
-    st.text(f"MAE for {selected_model}: {mae:.2f}")
-    st.text(f"MSE for {selected_model}: {mse:.2f}")
-    st.text(f"RMSE for {selected_model}: {rmse:.2f}")
+    # Store metrics in the dictionary
+    metrics_data[selected_model] = {'MAE': mae, 'MSE': mse, 'RMSE': rmse}
 
-# Display cards for MAE, MSE, and RMSE only if models are selected
-if selected_models:
-    columns_metrics[0].markdown(f"<div style='background-color: #cacccd; color: #f5f5f5; border-radius: 10px; padding: 10px;'>"
-                                f"<div style='text-align: center;'><b>MAE</b></div>"
-                                f"<div style='text-align: center; font-size: 18px; margin-top: 10px;'>{mae:.2f}</div>"
-                                "</div>", unsafe_allow_html=True)
+    # If more than one model is selected, set the flag to False
+    if len(selected_models) > 1:
+        show_subheader = False
 
-    columns_metrics[1].markdown(f"<div style='background-color: #cacccd; color: #f5f5f5; border-radius: 10px; padding: 10px;'>"
-                                f"<div style='text-align: center;'><b>MSE</b></div>"
-                                f"<div style='text-align: center; font-size: 18px; margin-top: 10px;'>{mse:.2f}</div>"
-                                "</div>", unsafe_allow_html=True)
+# Display cards for MAE, MSE, and RMSE only if one model is selected
+if len(selected_models) == 1:
+    selected_model = selected_models[0]
 
-    columns_metrics[2].markdown(f"<div style='background-color: #cacccd; color: #f5f5f5; border-radius: 10px; padding: 10px;'>"
-                                f"<div style='text-align: center;'><b>RMSE</b></div>"
-                                f"<div style='text-align: center; font-size: 18px; margin-top: 10px;'>{rmse:.2f}</div>"
-                                "</div>", unsafe_allow_html=True)
+    # MAE card
+    mae_card = (
+        f"<div style='border: 1px solid #ccc; border-radius: 10px; padding: 10px; background-color: #cacccd;'>"
+        f"<div style='text-align: center; color: #f5f5f5;'><b>MAE</b></div>"
+        f"<div style='text-align: center; font-size: 36px;'>{metrics_data[selected_model]['MAE']:.2f}</div>"
+        "</div>"
+    )
+
+    # MSE card
+    mse_card = (
+        f"<div style='border: 1px solid #ccc; border-radius: 10px; padding: 10px; background-color: #cacccd;'>"
+        f"<div style='text-align: center; color: #f5f5f5;'><b>MSE</b></div>"
+        f"<div style='text-align: center; font-size: 36px;'>{metrics_data[selected_model]['MSE']:.2f}</div>"
+        "</div>"
+    )
+
+    # RMSE card
+    rmse_card = (
+        f"<div style='border: 1px solid #ccc; border-radius: 10px; padding: 10px; background-color: #cacccd;'>"
+        f"<div style='text-align: center; color: #f5f5f5;'><b>RMSE</b></div>"
+        f"<div style='text-align: center; font-size: 36px;'>{metrics_data[selected_model]['RMSE']:.2f}</div>"
+        "</div>"
+    )
+
+    # Define the three columns
+    columns = st.columns(3)
+
+    # Display MAE card
+    columns[0].markdown(mae_card, unsafe_allow_html=True)
+
+    # Display MSE card
+    columns[1].markdown(mse_card, unsafe_allow_html=True)
+
+    # Display RMSE card
+    columns[2].markdown(rmse_card, unsafe_allow_html=True)
+
+    # Add a separator
+    st.markdown("<hr style='margin: 20px;'>", unsafe_allow_html=True)
+
+# Display horizontal bar charts for MAE, MSE, and RMSE
+if len(selected_models) >= 1:  # Adjust the condition to show charts even when multiple models are selected
+    st.subheader("Model Evaluation")
+
+    # Display horizontal bar charts for MAE, MSE, and RMSE
+    fig_metrics, ax_metrics = plt.subplots(1, 3, figsize=(18, 6))  # Change subplot dimensions for a single row
+
+    # Create horizontal bar charts for MAE, MSE, and RMSE
+    metrics_labels = ['MAE', 'MSE', 'RMSE']
+
+    # Create a dictionary to store the color for each model
+    model_colors = dict(zip(selected_models, plt.cm.viridis(np.linspace(0, 1, len(selected_models)))))
+
+    for i, metric in enumerate(metrics_labels):
+        # Add bars for each selected model, check if model exists in metrics_data
+        bars = [metrics_data[model][metric] if model in metrics_data else 0 for model in selected_models]
+
+        # Assign different colors to each bar
+        colors = [model_colors[model] for model in selected_models]
+
+        ax_metrics[i].bar(selected_models, bars, color=colors, label=metric)
+        ax_metrics[i].set_title(f'{metric}')
+        ax_metrics[i].set_ylabel(metric)
+        
+        # Hide x-axis labels
+        ax_metrics[i].set_xticks([])
+
+    # Create a single legend for the entire figure
+    legend_colors = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=model_colors[model], markersize=10, label=model) for model in selected_models]
+    fig_metrics.legend(handles=legend_colors, loc='upper center', bbox_to_anchor=(0.5, -0.1), fancybox=True, shadow=True, ncol=len(selected_models))
+
+    # Display the entire subplot in a single row
+    st.pyplot(fig_metrics)
+
+
+
+# Enable the "Show Feature Importance" checkbox only for tree-based models
+tree_models = ["Decision Tree", "Random Forest", "Light GBM", "XGBoost"]
+
+# Check if at least one tree-based model is selected
+show_feature_importance_checkbox = any(model in tree_models for model in selected_models)
+
+# On/Off switch for feature importance if at least one tree-based model is selected
+show_feature_importance = st.sidebar.checkbox("Show Feature Importance", show_feature_importance_checkbox)
+
+# Load the best models and configurations
+best_decision_tree_model = random_search_decision_tree.best_estimator_
+best_lightgbm_model = random_search_lightgbm.best_estimator_
+best_random_forest_model = random_search_random_forest.best_estimator_
+best_xgboost_model = random_search_xgboost.best_estimator_
+
+# If feature importance is enabled and at least one model is selected
+if show_feature_importance and selected_models:
+    st.subheader("Feature Importance")
+
+    for selected_model in selected_models:
+        # Check if the selected model is a tree-based model
+        if selected_model in tree_models:
+            st.subheader(f"Feature Importance for {selected_model}")
+
+            # Get the corresponding model from the loaded best models
+            if selected_model == "Decision Tree":
+                model = best_decision_tree_model.named_steps['model']
+            elif selected_model == "Random Forest":
+                model = best_random_forest_model.named_steps['model']
+            elif selected_model == "Light GBM":
+                model = best_lightgbm_model.named_steps['model']
+            elif selected_model == "XGBoost":
+                model = best_xgboost_model.named_steps['model']
+            else:
+                st.warning(f"No feature importance available for {selected_model}")
+                continue
+
+            feature_importances = model.feature_importances_
+
+            # If the model has a ColumnTransformer (ct), you can attempt to get feature names
+            if hasattr(model, 'named_steps') and 'ct' in model.named_steps:
+                transformed_feature_names = model.named_steps['ct'].get_feature_names_out()
+            else:
+                transformed_feature_names = None
+
+            if transformed_feature_names is not None:
+                # Combine one-hot-encoded features into a single feature
+                combined_importances = []
+                for feature in transformed_feature_names:
+                    if 'onehot_encode' in feature:
+                        base_feature = feature.split('__')[1]  # Extract the original feature name
+                        combined_importances.append((base_feature, feature_importances[transformed_feature_names == feature].sum()))
+                    else:
+                        combined_importances.append((feature, feature_importances[transformed_feature_names == feature][0]))
+
+                # Create a DataFrame for combined feature importances
+                combined_importances_df = pd.DataFrame(combined_importances, columns=['Feature', 'Importance'])
+
+                # Sort the DataFrame by importance in descending order
+                combined_importances_df = combined_importances_df.sort_values(by='Importance', ascending=False)
+
+                # Plot combined feature importance for all features in reversed order
+                plt.figure(figsize=(12, 8))
+                plt.barh(combined_importances_df['Feature'][::-1], combined_importances_df['Importance'][::-1], color='skyblue')
+                plt.xlabel('Feature Importance')
+                plt.title(f'{selected_model} Feature Importance')
+                plt.show()
+            else:
+                st.warning(f"No feature importance available for {selected_model}")
+
+        else:
+            st.warning(f"Feature importance is not available for {selected_model}. It is only supported for tree-based models.")
