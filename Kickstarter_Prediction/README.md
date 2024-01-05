@@ -10,25 +10,21 @@ The primary objective is to build models that can predict the success of a Kicks
 
 ## Project Structure
 
-- **`notebooks/`**: Jupyter notebooks for data exploration, preprocessing, model training, and evaluation.
 - **`data/`**: Dataset files (e.g., `kickstarter_data.csv`).
-- **`reports/`**: Project reports, visualizations, and results.
+- **`models/`**: Saved models for deployment or further analysis.
+- **`scr/`**: Saved Jupyter notebooks for data exploration, preprocessing, model training, and evaluation.
+- **Dashboard.py**: Streamlit dashboard for interactive visualisation and exploration.
 
-## Analysis Steps
+## Analysis
 
 1. **Data Exploration:** Delve into the intricacies of the Kickstarter dataset, understanding its structure and scrutinizing variable distributions.
-
 2. **Data Preprocessing:** Implement thorough cleaning procedures, address missing values, and prepare the data for subsequent modeling stages.
-
 3. **Exploratory Data Analysis (EDA):** Uncover insights by visually depicting relationships between variables and extracting meaningful patterns.
-
 4. **Feature Selection:** Identify the most relevant features crucial for predicting Kickstarter campaign outcomes.
-
 5. **Model Selection and Training:** Choose suitable machine learning algorithms tailored to the classification objective. Train and refine models to optimize performance.
-
 6. **Model Evaluation:** Rigorously assess model efficacy using diverse evaluation metrics.
-
-7. **Conclusion:** Provide a concise summary encapsulating discoveries and an evaluation of the predictive models' effectiveness.
+7. **Fine-Tuning:** Interactively refining the models to optimise performance.
+8. **Conclusion:** Provide a concise summary encapsulating discoveries and an evaluation of the predictive models' effectiveness.
 
 ## Data Dictionary
 
@@ -51,9 +47,10 @@ The primary objective is to build models that can predict the success of a Kicks
 1. **Clone this repository:**
 
    ```bash
-   git clone https://github.com/your-username/predicting-kickstarter.git
+   git clone https://github.com/sschepanski/data-science-portfolio.git
+   ```
 
-2. **Set up your environment using the provided requirements file:**
+2. **Set up your enviornment using the provided requirement file:**
    ```bash
    pyenv local 3.11.3
    python -m venv .venv
@@ -62,14 +59,12 @@ The primary objective is to build models that can predict the success of a Kicks
    pip install -r requirements.txt
    ```
 
-3. **Explore the Jupyter notebooks for detailed analysis.**
-   
-4. **Run the provided scripts in the src/ directory for data preprocessing, model training, and evaluation.**
+3. **Run the provided notebooks in the `scr/` directory for data preprocessing, model training, and evaluation.**
 
-## **Contributions**
+## Contributions
 
 This project is a collaborative effort involving contributions from different individuals, including Dr. Steven Schepanski and other attendees of the SPICED Academy Data Science Bootcamp.
 
-**## License**
+## License
 
 This project is licensed under the MIT License.

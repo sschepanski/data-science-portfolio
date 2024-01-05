@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This project focuses on developing a machine learning model for predicting the likelihood of stroke events based on 11 clinical features. The dataset used for this analysis is the **Stroke Prediction Dataset**, which includes essential information to predict whether a patient is likely to experience a stroke. Stroke is the 2nd leading cause of death globally, responsible for approximately 11% of total deaths, according to the World Health Organization (WHO).
+This project focuses on developing a machine learning model for predicting the likelihood of stroke events based on 11 clinical features. The dataset used for this analysis includes essential information to predict whether a patient is likely to experience a stroke. Stroke is the 2nd leading cause of death globally, responsible for approximately 11% of total deaths, according to the World Health Organization (WHO).
 
 ## Goal
 
@@ -10,9 +10,10 @@ Our primary goal is to leverage the provided clinical features, such as gender, 
 
 ## Project Structure
 
-- **`notebooks/`**: Jupyter notebooks for data exploration, preprocessing, model training, and evaluation.
 - **`data/`**: Dataset files (e.g., `healthcare-dataset-stroke-data.csv`).
-- **`reports/`**: Project reports, visualizations, and results.
+- **`models/`**: Saved models for deployment or further analysis.
+- **`scr/`**: Saved Jupyter notebooks for data exploration, preprocessing, model training, and evaluation.
+- **Dashboard.py**: Streamlit dashboard for interactive visualisation and exploration.
 
 ## Analysis
 
@@ -22,8 +23,9 @@ Our primary goal is to leverage the provided clinical features, such as gender, 
 4. **Feature Selection:** Identifying and selecting the most relevant clinical features crucial for our predictive task.
 5. **Model Selection and Training:** Choosing suitable machine learning algorithms tailored to our classification objective, and training and refining the selected models to optimize performance.
 6. **Model Evaluation:** Thoroughly assessing the efficacy of the models using diverse evaluation metrics.
-7. **Feature Importance:** Analyzing the importance of clinical features in the predictive model to understand which variables contribute significantly to stroke prediction.
-8. **Conclusion:** A concise summary encapsulating our findings and an evaluation of the predictive model's effectiveness.
+7. **Fine-Tuning:** Interatively refining the models to optimise performance.
+8. **Feature Importance:** Analyzing the importance of clinical features in the predictive model to understand which variables contribute significantly to stroke prediction.
+9. **Conclusion:** A concise summary encapsulating our findings and an evaluation of the predictive model's effectiveness.
 
 ## Data Dictionary
 
@@ -44,16 +46,18 @@ Our primary goal is to leverage the provided clinical features, such as gender, 
 
 ## Acknowledgements
 
-(Confidential Source) - Use only for educational purposes. If you use this dataset in your research, please credit the author.
+_(Confidential Source) - Use only for educational purposes_
+Dataset source: [Stroke Prediction Dataset](https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset). If you use this dataset in your research, please credit the author.
 
 ## Getting Started
 
 1. **Clone this repository:**
 
    ```bash
-   git clone https://github.com/your-username/predicting-kickstarter.git
+   git clone https://github.com/sschepanski/data-science-portfolio.git
+   ```
 
-2. **Set up your environment using the provided requirements file:**
+2. **Set up your enviornment using the provided requirement file:**
    ```bash
    pyenv local 3.11.3
    python -m venv .venv
@@ -62,14 +66,12 @@ Our primary goal is to leverage the provided clinical features, such as gender, 
    pip install -r requirements.txt
    ```
 
-3. **Explore the Jupyter notebooks for detailed analysis.**
-   
-4. **Run the provided scripts in the src/ directory for data preprocessing, model training, and evaluation.**
+3. **Run the provided notebooks in the `scr/` directory for data preprocessing, model training, and evaluation.**
 
-## **Contributions**
+## Contributions
 
-This project is a collaborative effort involving contributions from different individuals, including Dr. Steven Schepanski and other attendees of the SPICED Academy Data Science Bootcamp.
+This project was conducted by Dr. Steven Schepanski.
 
-**## License**
+## License
 
 This project is licensed under the MIT License.

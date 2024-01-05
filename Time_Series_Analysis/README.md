@@ -1,118 +1,64 @@
-# Template Repo for ML Project
+# Sales Forecasting Project
 
-This template repo will give you a good starting point for your second project. Besides the files used for creating a virtual environment, you will find a simple example of how to build a simple model in a python script. This is maybe the simplest way to do it. We train a simple model in the jupyter notebook, where we select only some features and do minimal cleaning. The output is then stored in simple python scripts.
+## Introduction
 
-The data used for this is: [coffee quality dataset](https://github.com/jldbc/coffee-quality-database).
+This project focuses on sales forecasting for the fictional 'BFCC AG' corporation. The dataset includes sales figures for several customers, and the goal is to prepare the data, predict future sales, and analyze the impact of a fictional 'afo Business Climate Index' on the sales forecast.
 
----
+## Goal
 
-## Set up a Kanban board on github
+The primary goal of this project is to orchestrate a seamless flow of tasks to enhance sales forecasting accuracy and insight. This involves leveraging the monthly sales figures to predict the next 6 months accurately. This uncovers the potential influence of external factors on sales predictions.
 
-Go to ML-Project Template.
+## Project Structure
 
-Click on "Use this Template" (Green button)
-![alt text](./images/step_1a.png)
+- **`data/`**: Dataset files (e.g.,`daten_kunden.csv`).
+- **`models/`**: Saved models for deployment or further analysis.
+- **`scr/`**: Saved Jupyter notebooks for data exploration, preprocessing, model training, and evaluation.
+- **Dashboard.py**: Streamlit dashboard for interactive visualisation and exploration.
 
-Create new project with relevant name, the owner should be your own account and **not** Neuefische. 
+## Analysis
 
-![alt text](./images/step_2.png)
+1. **Data Exploration:** Understanding the dataset's structure, exploring its intricacies, and examining the distribution of variables.
+2. **Data Preprocessing:** Rigorous cleaning procedures, addressing missing values, and preparing the data for subsequent modeling stages.
+3. **Exploratory Data Analysis (EDA):** Visualizing relationships between variables and extracting meaningful patterns to gain insights.
+4. **Feature Selection:** Identifying and selecting the most relevant features crucial for our predictive task.
+5. **Sales Forecasting:** Using historical sales data to predict future values, illustrating the results graphically.
+6. **Impact Analysis:** Assessing the impact of changes in the 'afo Business Climate Index' on the sales forecast.
+7. **Conclusion:** A concise summary encapsulating our findings and an evaluation of the predictive model's effectiveness.
 
-In your newly create repo, navigate to "Projects", and then click on "Add project" (green button). Normally you don't have created a project yet, so you can click the arrow navigation to create project on your profile. This project can be added at the end to your repository.
-![alt text](./images/add_project.png)
+## Data Dictionary
 
+| Feature   | Description |
+|-----------|-------------|
+| `daten_kunden.csv`     | Sales data for 'BFCC AG' customers |
+| `afo.csv`     | Monthly values of the 'afo Business Climate Index |
 
-You will be guided to your profiles projects. Click here on the green button "New project" to create a new project. Choose "board" view and **not** "table" view, then click "create".
-Good, now you have a board view. 
-![alt text](./images/boardview.png)
+## Acknowledgments
 
-Now change the name of your board, to match that of your chosen ML project. 
+Data source: Provided by 'BFCC AG.'
 
-Next, assign rights to all your team members by clicking on the 3 dots on the top right of the board, and then go to "settings". 
+## Getting Started
 
-Next, click on "Manage Access"
-Add your team mates by Searching for their github handle in the search window.
+1. **Clone this repository:**
 
-Change their Role from ‘View’ to ‘Admin’. 
-Click on the green button “Invite” to add them. Repeat for all team members.
-![alt text](./images/team_access.png
-)
+   ```bash
+   git clone https://github.com/sschepanski/data-science-portfolio.git
+   ```
 
-Next, add action items with the relevant name e.g. “load data”, "get statistics", etc.
+2. **Set up your enviornment using the provided requirement file:**
+   ```bash
+   pyenv local 3.11.3
+   python -m venv .venv
+   source .venv/bin/activate
+   pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
 
-Convert added item to issue by clicking on the 3 dots on the particular added item.
+3. **Run the provided notebooks in the `scr/` directory for data preprocessing, model training, and evaluation.**
 
-Then select the repo you created in step3 for the issue to be added. (Select the project repo example “Fraud detection”)
+## Contributions
 
+This project is a collaborative effort involving contributions from different individuals, including Dr. Steven Schepanski and other attendees of the SPICED Academy Data Science Bootcamp.
 
+## License
 
-When in project repo, Go to issues, then go to milestones. 
-
-Click on ”Add milestone”.
-
-Give the milestone a due date and description as per the example provided by the coaches. 
-
-Add description of: 
-
-A) What needs to be completed to be done with the milestone
-
-B) The definition of done: what will your result look like when you have completed the milestone? (check the provided format)
-![alt text](./images/create_milestone.png)
-
-Now navigate to "issues".
-
-Assign issues to milestones, give it assignees (people who will work on the task). 
-![alt text](./images/tasks_to_mileston.png)
-
-### Optional: Add workflows
-
-Workflows can help you keep your kanban board automatically on track. 
-
-Select the project created in the steps above.  
-
-Click on the 3 dots to the far right of the board (...)
-
-Select workflow as the first option. 
-
-Activate the ones you feel necessary to your project
-
-Go back to your project repository (fraud detection))
-
-## Requirements and Environment
-
-Requirements:
-- pyenv with Python: 3.11.3
-
-Environment: 
-
-For installing the virtual environment you can either use the Makefile and run `make setup` or install it manually with the following commands: 
-
-```Bash
-pyenv local 3.11.3
-python -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-## Usage
-
-In order to train the model and store test data in the data folder and the model in models run:
-
-```bash
-#activate env
-source .venv/bin/activate
-
-python example_files/train.py  
-```
-
-In order to test that predict works on a test set you created run:
-
-```bash
-python example_files/predict.py models/linear_regression_model.sav data/X_test.csv data/y_test.csv
-```
-
-## Limitations
-
-Development libraries are part of the production environment, normally these would be separate as the production code should be as slim as possible.
-
-
+This project is licensed under the MIT License.
